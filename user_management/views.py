@@ -58,3 +58,9 @@ def loginView(request: Request):
         print(username)
         return HttpResponse("login okeye")
     return HttpResponse("login kon")
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated,])
+def checkToken(request: Request):
+    return Response(status=status.HTTP_200_OK)

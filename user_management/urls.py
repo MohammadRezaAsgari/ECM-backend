@@ -5,4 +5,5 @@ urlpatterns = [
     path('login/', loginView, name='login'),
     path('logout/', logoutView),
     path('test/', test),
+    path('checktoken/', checkToken),
 ]

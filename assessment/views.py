@@ -1,27 +1,20 @@
-from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseRedirect
-from django.urls import reverse
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.authentication import SessionAuthentication
-from rest_framework.generics import ListAPIView
 from rest_framework.request import Request
+from rest_framework.response import Response
+from rest_framework import status
+from rest_framework.generics import ListAPIView
 from .models import Assessment
-from rest_framework.decorators import api_view, permission_classes, authentication_classes
-from django.views.decorators.cache import cache_control
+from .serializers import AssessmentSerializer
+from rest_framework.decorators import api_view, permission_classes
 
 
-base_url = 'http://127.0.0.1:8000'
-log_out_url = base_url + '/api/usermanagement/logout/'
-home_url = base_url + '/api/assessment/assessments/'
-create_assessment_url = base_url + '/api/assessment/create/'
-
-@api_view(['GET'])
-@cache_control(no_cache=True, must_revalidate=True)
-@authentication_classes([SessionAuthentication])
+# @api_view(['GET'])
+# @permission_classes([IsAuthenticated,])
 def assessmentsListView(request: Request):
-    if request.user and request.user.is_authenticated:
-        return render(request, 'home.html',{'assessments': Assessment.objects.all() , 'logouturl':log_out_url, 'home_url':home_url, 'create_assessment_url':create_assessment_url})
-    else:
-        return HttpResponseRedirect(reverse("login"))
-    
+    serialized_data = AssessmentSerializer(Assessment.objects.all())
+    return Response(serialized_data.data, status=status.HTTP_200_OK)
 
+class AssessmentListApiView(ListAPIView):
+    queryset = Assessment.objects.all()
+    serializer_class = AssessmentSerializer
+    #permission_classes = [IsAuthenticated, ]

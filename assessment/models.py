@@ -6,4 +6,4 @@ class Assessment(models.Model):
     company_name = models.CharField(max_length=50)
     product_name = models.CharField(max_length=50)
     contract_number = models.CharField(max_length=50)
-    data_of_contract = jmodels.jDateField()
+    date_of_contract = jmodels.jDateField()

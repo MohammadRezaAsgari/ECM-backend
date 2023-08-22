@@ -1,8 +1,8 @@
 from rest_framework import serializers
-from .models import Assessment, AssessmentPhoto
+from .models import *
 
 
-class AssessmentSerializer(serializers.ModelSerializer):
+class ContractSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Assessment
+        model = Contract
         fields = [ 'id' , 'product_name' , 'company_name' , 'contract_number' , 'date_of_contract'  ]

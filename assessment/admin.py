@@ -1,6 +1,6 @@
 from django.contrib import admin
-from .models import Assessment, AssessmentPhoto
+from .models import *
 
 # Register your models here.
-admin.site.register(Assessment)
-admin.site.register(AssessmentPhoto)
+admin.site.register(Contract)
+admin.site.register(ContractPhoto)

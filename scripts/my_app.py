@@ -1,14 +1,14 @@
-from assessment.models import Assessment
+from assessment.models import Contract
 import csv, arabic_reshaper
 
 
 def run():
     with open('C:/Users/rest/Desktop/text.csv', encoding='utf-8') as file:
         reader = csv.reader(file)
-        Assessment.objects.all().delete()
+        Contract.objects.all().delete()
 
         for row in reader:
-            Assessment.objects.get_or_create(
+            Contract.objects.get_or_create(
                 company_name = row[1],
                 product_name = row[0],
                 contract_number = row[2],

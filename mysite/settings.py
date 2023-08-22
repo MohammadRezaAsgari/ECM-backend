@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     "assessment",
     'django_extensions',
     'django_filters',
+    'django_rename_app',
 ]
 
 MIDDLEWARE = [

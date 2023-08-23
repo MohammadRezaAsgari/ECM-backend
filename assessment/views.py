@@ -15,8 +15,8 @@ class ContractListApiView(ListCreateAPIView):
     queryset = Contract.objects.all().order_by('-id').values()
     serializer_class = ContractSerializer
     permission_classes = [IsAuthenticated, ]
-    #filter_backends = [CustomSearchFilter]
-    #search_fields = ['company_name', 'product_name', 'contract_number']
+    filter_backends = [filters.SearchFilter , ]
+    search_fields = ['contract_number', 'company_name' , 'product_name']
 
 
 class ContractRetrieveAPIView(RetrieveUpdateDestroyAPIView):

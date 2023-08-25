@@ -44,7 +44,6 @@ INSTALLED_APPS = [
     "assessment",
     'django_extensions',
     'django_filters',
-    'django_rename_app',
 ]
 
 MIDDLEWARE = [
@@ -147,15 +146,22 @@ REST_FRAMEWORK = {
 
 
 CORS_ALLOW_ALL_ORIGINS = True
-CORS_ALLOWED_ORIGINS = ["http://127.0.0.1:5500"]
+CORS_ALLOWED_ORIGINS = ["http://127.0.0.1:3000", 'http://192.168.1.34:3000','http://192.168.43.111:3000',]
 
 CSRF_TRUSTED_ORIGINS = [
-    'http://127.0.0.1:5500'
+    'http://127.0.0.1:3000'
+    'http://192.168.1.34:3000',
+    'http://192.168.43.111:3000',
 ]
 ALLOWED_HOSTS = [
     '127.0.0.1',
+    '0.0.0.0',
+    '192.168.1.34',
+    '192.168.43.111',
 ]
 CORS_ORIGIN_WHITELIST = [
-    'http://127.0.0.1:5500',
+    'http://127.0.0.1:3000',
+    'http://192.168.1.34:3000',
+    'http://192.168.43.111:3000',
 ]
 

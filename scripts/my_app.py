@@ -1,9 +1,10 @@
 from assessment.models import Contract
 import csv, arabic_reshaper
 
+path = 'C:/Users/rest/Desktop/text.csv'
 
 def run():
-    with open('C:/Users/rest/Desktop/text.csv', encoding='utf-8') as file:
+    with open(path, encoding='utf-8') as file:
         reader = csv.reader(file)
         Contract.objects.all().delete()
 

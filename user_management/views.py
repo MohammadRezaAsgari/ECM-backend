@@ -30,6 +30,10 @@ def changeUsername(request: Request):
     user_password = req_body['password']
     user = authenticate(request, username=request.user.username, password=user_password)
     if user is not None:
+        if user_username==user.username:
+            return JsonResponse({"status": "نام کاربری همان نام کاربری قبلی است!", "error":"username same!"})
+        if User.objects.filter(username=user_username).exists() and user_username!=user.username:
+            return JsonResponse({"status": "حساب با این نام کاربری وجود دارد!", "error":"user exists!"}) 
         user.username = user_username
         user.save()
         return JsonResponse({"status": "نام کاربری با موفقیت تغییر یافت."})
@@ -46,9 +50,12 @@ def changeUsernameAndPassword(request: Request):
     user = authenticate(request, username=request.user.username, password=user_password)
     if user is not None:
         response = JsonResponse({})
+
         if user.username == user_username:
             response = JsonResponse({"status": "رمز عبور با موفقیت تغییر یافت."})
         else:
+            if User.objects.filter(username=user_username).exists():
+                return JsonResponse({"status": "حساب با این نام کاربری وجود دارد!", "error":"user exists!"})
             response = JsonResponse({"status": "نام کاربری و رمز عبور با موفقیت تغییر یافت."})
         user.username = user_username
         user.set_password(user_new_password)

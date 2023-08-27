@@ -25,9 +25,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-)plsjs7f6nma$r5@v^e%ainayi&ofu$j92#h+e(rw06k**z1#!"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = []
+DEBUG = False
 
 # Application definition
 
@@ -60,7 +58,7 @@ MIDDLEWARE = [
 ROOT_URLCONF = "mysite.urls"
 
 SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(days=7),
+    "ACCESS_TOKEN_LIFETIME": timedelta(days=1),
 }
 
 TEMPLATES = [
@@ -145,23 +143,8 @@ REST_FRAMEWORK = {
 }
 
 
-CORS_ALLOW_ALL_ORIGINS = True
-CORS_ALLOWED_ORIGINS = ["http://127.0.0.1:3000", 'http://192.168.1.34:3000','http://192.168.43.111:3000',]
+CORS_ALLOW_ALL_ORIGINS = False
 
-CSRF_TRUSTED_ORIGINS = [
-    'http://127.0.0.1:3000'
-    'http://192.168.1.34:3000',
-    'http://192.168.43.111:3000',
-]
-ALLOWED_HOSTS = [
-    '127.0.0.1',
-    '0.0.0.0',
-    '192.168.1.34',
-    '192.168.43.111',
-]
-CORS_ORIGIN_WHITELIST = [
-    'http://127.0.0.1:3000',
-    'http://192.168.1.34:3000',
-    'http://192.168.43.111:3000',
-]
+CORS_ALLOWED_ORIGINS = ['http://localhost:3000', 'http://192.168.42.114:3000', ]
 
+ALLOWED_HOSTS = ['127.0.0.1', '192.168.42.114' ]

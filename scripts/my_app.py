@@ -12,5 +12,5 @@ def run():
             Contract.objects.get_or_create(
                 company_name = row[1],
                 product_name = row[0],
-                contract_number = row[2],
+                contract_number = row[2]+'/'+'پ'+'/'+'م',
                 date_of_contract = row[3])

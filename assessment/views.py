@@ -26,7 +26,6 @@ class ContractRetrieveAPIView(RetrieveUpdateDestroyAPIView):
 
 
 
-
 # Contract first Page Photo
 @api_view(['GET', 'POST', 'PUT',])
 @permission_classes([IsAuthenticated])
@@ -54,131 +53,83 @@ def manageContractPhoto(request: Request, id: int = None):
         return HttpResponse(status=status.HTTP_200_OK)
  
 
-
-#Phase 1 files
-@api_view(['GET',])
+#Phase one docs    
+@api_view(['GET', 'POST', 'PUT',])
 @permission_classes([IsAuthenticated])
-def getPhaseOneReceiptPhoto(request: Request, id: int = None):
+def managePhaseOneDocuments(request: Request, id: int = None):
     if request.method == 'GET':
         if id == None : 
             return HttpResponse(status=status.HTTP_403_FORBIDDEN)
         
-        if PhaseOneFiles.objects.filter(contract__id=id).exists():
-            phase_one_file = PhaseOneFiles.objects.get(contract__id=id)
-            return HttpResponse(phase_one_file.receipt_photo, content_type="image/jpeg")
+        if PhaseOneDocument.objects.filter(contract__id=id).exists():
+            phaseOne_document = PhaseOneDocument.objects.get(contract__id=id)
+            return HttpResponse(phaseOne_document.documents, content_type="application/x-zip-compressed")
         return JsonResponse({"response": "Not exists"})
     
-@api_view(['GET',])
-@permission_classes([IsAuthenticated])
-def getPhaseOneDocuments(request: Request, id: int = None):
-    if request.method == 'GET':
-        if id == None : 
-            return HttpResponse(status=status.HTTP_403_FORBIDDEN)
-        
-        if PhaseOneFiles.objects.filter(contract__id=id).exists():
-            phase_one_file = PhaseOneFiles.objects.get(contract__id=id)
-            return HttpResponse(phase_one_file.documents, content_type="application/x-zip-compressed")
-        return JsonResponse({"response": "Not exists"})
-    
-@api_view(['POST', 'PUT', ])
-@permission_classes([IsAuthenticated])
-def createUpdatePhaseOneFiles(request: Request, id: int = None):    
     if request.method == 'POST':
         contract = Contract.objects.get(id=request.POST['post_id'])
-        PhaseOneFiles.objects.create(receipt_photo=request.FILES["receipt_photo"] ,documents=request.FILES["documents"] , contract=contract)
+        PhaseOneDocument.objects.create(documents=request.FILES["documents"], contract=contract)
         return HttpResponse(status=status.HTTP_200_OK)
     
     if request.method == 'PUT':
         if id == None : 
             return HttpResponse(status=status.HTTP_403_FORBIDDEN)
-        phase_one_file = PhaseOneFiles.objects.get(contract__id=id)
-        phase_one_file.receipt_photo = request.FILES["receipt_photo"]
-        phase_one_file.documents = request.FILES["documents"]
-        phase_one_file.save()
+        phaseOne_document = PhaseOneDocument.objects.get(contract__id=id)
+        phaseOne_document.documents = request.FILES["documents"]
+        phaseOne_document.save()
         return HttpResponse(status=status.HTTP_200_OK)
- 
-        
 
 
-
-# Phase 2 files
-@api_view(['GET',])
+#Phase two docs    
+@api_view(['GET', 'POST', 'PUT',])
 @permission_classes([IsAuthenticated])
-def getPhaseTwoReceiptPhoto(request: Request, id: int = None):
+def managePhaseTwoDocuments(request: Request, id: int = None):
     if request.method == 'GET':
         if id == None : 
             return HttpResponse(status=status.HTTP_403_FORBIDDEN)
         
-        if PhaseTwoFiles.objects.filter(contract__id=id).exists():
-            phase_two_file = PhaseTwoFiles.objects.get(contract__id=id)
-            return HttpResponse(phase_two_file.receipt_photo, content_type="image/jpeg")
+        if PhaseTwoDocument.objects.filter(contract__id=id).exists():
+            phaseTwo_document = PhaseTwoDocument.objects.get(contract__id=id)
+            return HttpResponse(phaseTwo_document.documents, content_type="application/x-zip-compressed")
         return JsonResponse({"response": "Not exists"})
     
-@api_view(['GET',])
-@permission_classes([IsAuthenticated])
-def getPhaseTwoFuncDocuments(request: Request, id: int = None):
-    if request.method == 'GET':
-        if id == None : 
-            return HttpResponse(status=status.HTTP_403_FORBIDDEN)
-        
-        if PhaseTwoFiles.objects.filter(contract__id=id).exists():
-            phase_two_file = PhaseTwoFiles.objects.get(contract__id=id)
-            return HttpResponse(phase_two_file.functional_document, content_type="application/x-zip-compressed")
-        return JsonResponse({"response": "Not exists"})
-    
-@api_view(['GET',])
-@permission_classes([IsAuthenticated])
-def getPhaseTwoVulDocuments(request: Request, id: int = None):
-    if request.method == 'GET':
-        if id == None : 
-            return HttpResponse(status=status.HTTP_403_FORBIDDEN)
-        
-        if PhaseTwoFiles.objects.filter(contract__id=id).exists():
-            phase_two_file = PhaseTwoFiles.objects.get(contract__id=id)
-            return HttpResponse(phase_two_file.vulnerability_document, content_type="application/x-zip-compressed")
-        return JsonResponse({"response": "Not exists"})
-    
-@api_view(['POST', 'PUT', ])
-@permission_classes([IsAuthenticated])
-def createUpdatePhaseTwoFiles(request: Request, id: int = None):    
     if request.method == 'POST':
         contract = Contract.objects.get(id=request.POST['post_id'])
-        PhaseTwoFiles.objects.create(receipt_photo=request.FILES["receipt_photo"] ,functional_document=request.FILES["functional_document"] , vulnerability_document=request.FILES["vulnerability_document"], contract=contract)
+        PhaseTwoDocument.objects.create(documents=request.FILES["documents"], contract=contract)
         return HttpResponse(status=status.HTTP_200_OK)
     
     if request.method == 'PUT':
         if id == None : 
             return HttpResponse(status=status.HTTP_403_FORBIDDEN)
-        phase_two_file = PhaseTwoFiles.objects.get(contract__id=id)
-        phase_two_file.receipt_photo = request.FILES["receipt_photo"]
-        phase_two_file.functional_document = request.FILES["functional_document"]
-        phase_two_file.vulnerability_document = request.FILES["vulnerability_document"]
-        phase_two_file.save()
+        phaseTwo_document = PhaseTwoDocument.objects.get(contract__id=id)
+        phaseTwo_document.documents = request.FILES["documents"]
+        phaseTwo_document.save()
         return HttpResponse(status=status.HTTP_200_OK)
 
 
 #Supplement files    
 @api_view(['GET', 'POST', 'PUT',])
 @permission_classes([IsAuthenticated])
-def manageSupplementFiles(request: Request, id: int = None):
+def manageSupplementDocument(request: Request, id: int = None):
     if request.method == 'GET':
         if id == None : 
             return HttpResponse(status=status.HTTP_403_FORBIDDEN)
         
-        if SupplementFiles.objects.filter(contract__id=id).exists():
-            supplement_file = SupplementFiles.objects.get(contract__id=id)
+        if SupplementDocument.objects.filter(contract__id=id).exists():
+            supplement_file = SupplementDocument.objects.get(contract__id=id)
             return HttpResponse(supplement_file.receipt_photo, content_type="image/jpeg")
         return JsonResponse({"response": "Not exists"})
     
     if request.method == 'POST':
         contract = Contract.objects.get(id=request.POST['post_id'])
-        SupplementFiles.objects.create(receipt_photo=request.FILES["receipt_photo"], contract=contract)
+        SupplementDocument.objects.create(receipt_photo=request.FILES["receipt_photo"], contract=contract)
         return HttpResponse(status=status.HTTP_200_OK)
     
     if request.method == 'PUT':
         if id == None : 
             return HttpResponse(status=status.HTTP_403_FORBIDDEN)
-        supplement_file = SupplementFiles.objects.get(contract__id=id)
+        supplement_file = SupplementDocument.objects.get(contract__id=id)
         supplement_file.receipt_photo = request.FILES["receipt_photo"]
         supplement_file.save()
         return HttpResponse(status=status.HTTP_200_OK)
+    

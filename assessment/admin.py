@@ -3,7 +3,7 @@ from .models import *
 
 # Register your models here.
 admin.site.register(Contract)
-admin.site.register(PhaseOneFiles)
-admin.site.register(PhaseTwoFiles)
-admin.site.register(SupplementFiles)
 admin.site.register(ContractPhoto)
+admin.site.register(PhaseOneDocument)
+admin.site.register(PhaseTwoDocument)
+admin.site.register(SupplementDocument)

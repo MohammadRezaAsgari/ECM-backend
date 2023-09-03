@@ -35,28 +35,25 @@ class Contract(models.Model):
        unique_together = ("company_name", "product_name")
 
 
-class PhaseOneFiles(models.Model):
+class PhaseOneDocument(models.Model):
     contract = models.OneToOneField(Contract, on_delete=models.CASCADE)
-    receipt_photo = models.ImageField(upload_to='uploads/first_phase_receipt_photo/')
-    documents = models.FileField(upload_to='uploads/first_phase_final_documents/')
+    documents = models.FileField(upload_to='uploads/first_phase_documents/')
 
 
-class PhaseTwoFiles(models.Model):
+class PhaseTwoDocument(models.Model):
     contract = models.OneToOneField(Contract, on_delete=models.CASCADE)
-    receipt_photo = models.ImageField(upload_to='uploads/first_phase_receipt_photo/')
-    functional_document = models.FileField(upload_to='uploads/second_phase_functional_documents/')
-    vulnerability_document = models.FileField(upload_to='uploads/second_phase_vulnerability_documents/')
+    documents = models.FileField(upload_to='uploads/second_phase_documents/')
 
 
-class SupplementFiles(models.Model):
+class SupplementDocument(models.Model):
     contract = models.OneToOneField(Contract, on_delete=models.CASCADE)
     receipt_photo = models.ImageField(upload_to='uploads/supplement_receipt_photo/')
 
 
 class ContractPhoto(models.Model):
-    photo = models.ImageField(upload_to='uploads/contracts_first_page_photo/')
     contract = models.OneToOneField(Contract, on_delete=models.CASCADE)
-
+    photo = models.ImageField(upload_to='uploads/contracts_first_page_photo/')
+    
 
 
 #some handlers for removing photo file for model ContractPhoto
@@ -82,43 +79,21 @@ def auto_delete_file_on_change(sender, instance, **kwargs):
             os.remove(old_file.path)
 
 
-#some handlers for removing receipt_photo file for model PhaseOneFiles
-@receiver(models.signals.post_delete, sender=PhaseOneFiles)
+#some handlers for removing receipt_photo file for model PhaseOneDocument
+@receiver(models.signals.post_delete, sender=PhaseOneDocument)
 def auto_delete_file_on_delete1(sender, instance, **kwargs):
-    if instance.receipt_photo:
-        if os.path.isfile(instance.receipt_photo.path):
-            os.remove(instance.receipt_photo.path)
+    if instance.documents:
+        if os.path.isfile(instance.documents.path):
+            os.remove(instance.documents.path)
 
-@receiver(models.signals.pre_save, sender=PhaseOneFiles)
+@receiver(models.signals.pre_save, sender=PhaseOneDocument)
 def auto_delete_file_on_change1(sender, instance, **kwargs):
     if not instance.pk:
         return False
 
     try:
-        old_file = PhaseOneFiles.objects.get(pk=instance.pk).receipt_photo
-    except PhaseOneFiles.DoesNotExist:
-        return False
-
-    new_file = instance.receipt_photo
-    if not old_file == new_file:
-        if os.path.isfile(old_file.path):
-            os.remove(old_file.path)
-
-#some handlers for removing ducuments file for model PhaseOneFiles
-@receiver(models.signals.post_delete, sender=PhaseOneFiles)
-def auto_delete_file_on_delete2(sender, instance, **kwargs):
-    if instance.documents:
-        if os.path.isfile(instance.documents.path):
-            os.remove(instance.documents.path)
-
-@receiver(models.signals.pre_save, sender=PhaseOneFiles)
-def auto_delete_file_on_change2(sender, instance, **kwargs):
-    if not instance.pk:
-        return False
-
-    try:
-        old_file = PhaseOneFiles.objects.get(pk=instance.pk).documents
-    except PhaseOneFiles.DoesNotExist:
+        old_file = PhaseOneDocument.objects.get(pk=instance.pk).documents
+    except PhaseOneDocument.DoesNotExist:
         return False
 
     new_file = instance.documents
@@ -126,90 +101,47 @@ def auto_delete_file_on_change2(sender, instance, **kwargs):
         if os.path.isfile(old_file.path):
             os.remove(old_file.path)
 
-#some handlers for removing receipt_photo file for model PhaseTwoFiles
-@receiver(models.signals.post_delete, sender=PhaseTwoFiles)
-def auto_delete_file_on_delete3(sender, instance, **kwargs):
-    if instance.receipt_photo:
-        if os.path.isfile(instance.receipt_photo.path):
-            os.remove(instance.receipt_photo.path)
 
-@receiver(models.signals.pre_save, sender=PhaseTwoFiles)
+
+#some handlers for removing receipt_photo file for model PhaseTwoDocument
+@receiver(models.signals.post_delete, sender=PhaseTwoDocument)
+def auto_delete_file_on_delete3(sender, instance, **kwargs):
+    if instance.documents:
+        if os.path.isfile(instance.documents.path):
+            os.remove(instance.documents.path)
+
+@receiver(models.signals.pre_save, sender=PhaseTwoDocument)
 def auto_delete_file_on_change3(sender, instance, **kwargs):
     if not instance.pk:
         return False
 
     try:
-        old_file = PhaseTwoFiles.objects.get(pk=instance.pk).receipt_photo
-    except PhaseTwoFiles.DoesNotExist:
+        old_file = PhaseTwoDocument.objects.get(pk=instance.pk).documents
+    except PhaseTwoDocument.DoesNotExist:
         return False
 
-    new_file = instance.receipt_photo
+    new_file = instance.documents
     if not old_file == new_file:
         if os.path.isfile(old_file.path):
             os.remove(old_file.path)
 
 
 
-#some handlers for removing functional_document file for model PhaseTwoFiles
-@receiver(models.signals.post_delete, sender=PhaseTwoFiles)
-def auto_delete_file_on_delete4(sender, instance, **kwargs):
-    if instance.functional_document:
-        if os.path.isfile(instance.functional_document.path):
-            os.remove(instance.functional_document.path)
-
-@receiver(models.signals.pre_save, sender=PhaseTwoFiles)
-def auto_delete_file_on_change4(sender, instance, **kwargs):
-    if not instance.pk:
-        return False
-
-    try:
-        old_file = PhaseTwoFiles.objects.get(pk=instance.pk).functional_document
-    except PhaseTwoFiles.DoesNotExist:
-        return False
-
-    new_file = instance.functional_document
-    if not old_file == new_file:
-        if os.path.isfile(old_file.path):
-            os.remove(old_file.path)
-
-
-#some handlers for removing vulnerability_document file for model PhaseTwoFiles
-@receiver(models.signals.post_delete, sender=PhaseTwoFiles)
-def auto_delete_file_on_delete5(sender, instance, **kwargs):
-    if instance.vulnerability_document:
-        if os.path.isfile(instance.vulnerability_document.path):
-            os.remove(instance.vulnerability_document.path)
-
-@receiver(models.signals.pre_save, sender=PhaseTwoFiles)
-def auto_delete_file_on_change5(sender, instance, **kwargs):
-    if not instance.pk:
-        return False
-
-    try:
-        old_file = PhaseTwoFiles.objects.get(pk=instance.pk).vulnerability_document
-    except PhaseTwoFiles.DoesNotExist:
-        return False
-
-    new_file = instance.vulnerability_document
-    if not old_file == new_file:
-        if os.path.isfile(old_file.path):
-            os.remove(old_file.path)
-
-#some handlers for removing receipt_photo file for model SupplementFiles
-@receiver(models.signals.post_delete, sender=SupplementFiles)
+#some handlers for removing receipt_photo file for model SupplementDocument
+@receiver(models.signals.post_delete, sender=SupplementDocument)
 def auto_delete_file_on_delete6(sender, instance, **kwargs):
     if instance.receipt_photo:
         if os.path.isfile(instance.receipt_photo.path):
             os.remove(instance.receipt_photo.path)
 
-@receiver(models.signals.pre_save, sender=SupplementFiles)
+@receiver(models.signals.pre_save, sender=SupplementDocument)
 def auto_delete_file_on_change6(sender, instance, **kwargs):
     if not instance.pk:
         return False
 
     try:
-        old_file = SupplementFiles.objects.get(pk=instance.pk).receipt_photo
-    except SupplementFiles.DoesNotExist:
+        old_file = SupplementDocument.objects.get(pk=instance.pk).receipt_photo
+    except SupplementDocument.DoesNotExist:
         return False
 
     new_file = instance.receipt_photo

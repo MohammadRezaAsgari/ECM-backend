@@ -2,8 +2,8 @@ from django.urls import path, include, re_path
 from .views import *
 
 urlpatterns = [
-    path('contracts/', ContractListApiView.as_view()),
-    path('contracts/<int:pk>', ContractRetrieveAPIView.as_view()),
+    path('contracts/', ContractListCreateApiView.as_view()),
+    path('contracts/<int:pk>', ContractRetrieveUpdateDestroyAPIView.as_view()),
 
     path('contracts/contract-photo/<int:id>', manageContractPhoto),
     path('contracts/contract-photo/', manageContractPhoto),

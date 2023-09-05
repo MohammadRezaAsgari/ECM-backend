@@ -11,7 +11,7 @@ from .serializers import *
 from .search_filters import CustomSearchFilter
 
 
-class ContractListApiView(ListCreateAPIView):
+class ContractListCreateApiView(ListCreateAPIView):
     queryset = Contract.objects.all().order_by('-id').values()
     serializer_class = ContractSerializer
     permission_classes = [IsAuthenticated, ]
@@ -19,7 +19,7 @@ class ContractListApiView(ListCreateAPIView):
     search_fields = ['contract_number', 'company_name' , 'product_name']
 
 
-class ContractRetrieveAPIView(RetrieveUpdateDestroyAPIView):
+class ContractRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
     queryset = Contract.objects.all()
     serializer_class = ContractSerializer
     permission_classes = [IsAuthenticated, ]
@@ -122,14 +122,14 @@ def manageSupplementDocument(request: Request, id: int = None):
     
     if request.method == 'POST':
         contract = Contract.objects.get(id=request.POST['post_id'])
-        SupplementDocument.objects.create(receipt_photo=request.FILES["receipt_photo"], contract=contract)
+        SupplementDocument.objects.create(receipt_photo=request.FILES["photo"], contract=contract)
         return HttpResponse(status=status.HTTP_200_OK)
     
     if request.method == 'PUT':
         if id == None : 
             return HttpResponse(status=status.HTTP_403_FORBIDDEN)
         supplement_file = SupplementDocument.objects.get(contract__id=id)
-        supplement_file.receipt_photo = request.FILES["receipt_photo"]
+        supplement_file.receipt_photo = request.FILES["photo"]
         supplement_file.save()
         return HttpResponse(status=status.HTTP_200_OK)
     

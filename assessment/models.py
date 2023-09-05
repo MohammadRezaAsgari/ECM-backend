@@ -2,12 +2,17 @@ from django.db import models
 from django.dispatch import receiver
 import os
 
+PRODUCT_CATEGORY_CHOICES = [
+    ("IT", "فناوری اطلاعات"),
+    ("SCADA", "کنترل صنعتی و اسکادا"),
+]
 
 class Contract(models.Model):
     company_name = models.CharField(max_length=50)
     product_name = models.CharField(max_length=50)
     contract_number = models.CharField(max_length=50, unique=True)
-    date_of_contract = models.CharField(max_length=50)
+    date_of_contract = models.CharField(max_length=50, null=True, blank=True)
+    product_category = models.CharField(max_length=5, choices= PRODUCT_CATEGORY_CHOICES, null=True)
 
     contract_total_price = models.CharField(max_length=50, null=True, blank=True)
     contract_deadline_date = models.CharField(max_length=50, null=True, blank=True)

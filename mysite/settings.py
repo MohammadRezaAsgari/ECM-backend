@@ -25,7 +25,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-)plsjs7f6nma$r5@v^e%ainayi&ofu$j92#h+e(rw06k**z1#!"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 # Application definition
 
@@ -145,6 +145,6 @@ REST_FRAMEWORK = {
 
 CORS_ALLOW_ALL_ORIGINS = False
 
-CORS_ALLOWED_ORIGINS = ['http://127.0.0.1:3000', 'http://localhost:3000', 'http://192.168.42.114:3000', ]
+CORS_ALLOWED_ORIGINS = ['http://127.0.0.1:3000', 'http://localhost:3000', 'http://192.168.42.114:3000',  ] # add your network ip to accept the requests
 
-ALLOWED_HOSTS = ['127.0.0.1', '192.168.42.114' ]
+ALLOWED_HOSTS = ['127.0.0.1', '192.168.42.114' ] # add your network ip to accept the requests

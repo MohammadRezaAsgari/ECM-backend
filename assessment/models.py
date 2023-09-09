@@ -75,13 +75,13 @@ def auto_delete_file_on_change(sender, instance, **kwargs):
 
     try:
         old_file = ContractPhoto.objects.get(pk=instance.pk).photo
-    except ContractPhoto.DoesNotExist:
-        return False
+        new_file = instance.photo
+        if not old_file == new_file:
+            if os.path.isfile(old_file.path):
+                os.remove(old_file.path)
 
-    new_file = instance.photo
-    if not old_file == new_file:
-        if os.path.isfile(old_file.path):
-            os.remove(old_file.path)
+    except:
+        return False
 
 
 #some handlers for removing receipt_photo file for model PhaseOneDocument
@@ -98,14 +98,12 @@ def auto_delete_file_on_change1(sender, instance, **kwargs):
 
     try:
         old_file = PhaseOneDocument.objects.get(pk=instance.pk).documents
-    except PhaseOneDocument.DoesNotExist:
+        new_file = instance.documents
+        if not old_file == new_file:
+            if os.path.isfile(old_file.path):
+                os.remove(old_file.path)
+    except:
         return False
-
-    new_file = instance.documents
-    if not old_file == new_file:
-        if os.path.isfile(old_file.path):
-            os.remove(old_file.path)
-
 
 
 #some handlers for removing receipt_photo file for model PhaseTwoDocument
@@ -122,15 +120,12 @@ def auto_delete_file_on_change3(sender, instance, **kwargs):
 
     try:
         old_file = PhaseTwoDocument.objects.get(pk=instance.pk).documents
-    except PhaseTwoDocument.DoesNotExist:
+        new_file = instance.documents
+        if not old_file == new_file:
+            if os.path.isfile(old_file.path):
+                os.remove(old_file.path)
+    except:
         return False
-
-    new_file = instance.documents
-    if not old_file == new_file:
-        if os.path.isfile(old_file.path):
-            os.remove(old_file.path)
-
-
 
 #some handlers for removing receipt_photo file for model SupplementDocument
 @receiver(models.signals.post_delete, sender=SupplementDocument)
@@ -146,11 +141,10 @@ def auto_delete_file_on_change6(sender, instance, **kwargs):
 
     try:
         old_file = SupplementDocument.objects.get(pk=instance.pk).receipt_photo
-    except SupplementDocument.DoesNotExist:
+        new_file = instance.receipt_photo
+        if not old_file == new_file:
+            if os.path.isfile(old_file.path):
+                os.remove(old_file.path)
+    except :
         return False
-
-    new_file = instance.receipt_photo
-    if not old_file == new_file:
-        if os.path.isfile(old_file.path):
-            os.remove(old_file.path)
 

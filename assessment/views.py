@@ -47,7 +47,8 @@ def manageContractPhoto(request: Request, id: int = None):
     if request.method == 'PUT':
         if id == None : 
             return HttpResponse(status=status.HTTP_403_FORBIDDEN)
-        contract_photo = ContractPhoto.objects.get(contract__id=id)
+        contract = Contract.objects.get(id=id)
+        contract_photo , created = ContractPhoto.objects.get_or_create(contract=contract)
         contract_photo.photo = request.FILES["photo"]
         contract_photo.save()
         return HttpResponse(status=status.HTTP_200_OK)
@@ -74,7 +75,8 @@ def managePhaseOneDocuments(request: Request, id: int = None):
     if request.method == 'PUT':
         if id == None : 
             return HttpResponse(status=status.HTTP_403_FORBIDDEN)
-        phaseOne_document = PhaseOneDocument.objects.get(contract__id=id)
+        contract = Contract.objects.get(id=id)
+        phaseOne_document , created = PhaseOneDocument.objects.get_or_create(contract=contract)
         phaseOne_document.documents = request.FILES["documents"]
         phaseOne_document.save()
         return HttpResponse(status=status.HTTP_200_OK)
@@ -101,7 +103,8 @@ def managePhaseTwoDocuments(request: Request, id: int = None):
     if request.method == 'PUT':
         if id == None : 
             return HttpResponse(status=status.HTTP_403_FORBIDDEN)
-        phaseTwo_document = PhaseTwoDocument.objects.get(contract__id=id)
+        contract = Contract.objects.get(id=id)
+        phaseTwo_document , created = PhaseTwoDocument.objects.get_or_create(contract=contract)
         phaseTwo_document.documents = request.FILES["documents"]
         phaseTwo_document.save()
         return HttpResponse(status=status.HTTP_200_OK)
@@ -128,7 +131,8 @@ def manageSupplementDocument(request: Request, id: int = None):
     if request.method == 'PUT':
         if id == None : 
             return HttpResponse(status=status.HTTP_403_FORBIDDEN)
-        supplement_file = SupplementDocument.objects.get(contract__id=id)
+        contract = Contract.objects.get(id=id)
+        supplement_file , created = SupplementDocument.objects.get_or_create(contract=contract)
         supplement_file.receipt_photo = request.FILES["photo"]
         supplement_file.save()
         return HttpResponse(status=status.HTTP_200_OK)
